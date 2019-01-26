@@ -119,8 +119,16 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                         teamHoursRow.Fields.Date = workHours.Fields.Date;
                         teamHoursRow.Fields.ObjectIdentifier = workHours.Fields.ObjectIdentifier;
 
-                        teamHoursRow.Fields.MeetingHours += workHours.Fields.MeetingHours;
-                        teamHoursRow.Fields.MeetingMinutes += workHours.Fields.MeetingMinutes;
+                        if (_timeTrackerOptions.EnableTimer == true)
+                        {
+                            teamHoursRow.Fields.MeetingHours += workHours.Fields.MeetingTimerHours;
+                            teamHoursRow.Fields.MeetingMinutes += workHours.Fields.MeetingTimerMinutes;
+                        }
+                        else
+                        {
+                            teamHoursRow.Fields.MeetingHours += workHours.Fields.MeetingHours;
+                            teamHoursRow.Fields.MeetingMinutes += workHours.Fields.MeetingMinutes;
+                        }
 
                         if (workHours.Fields.MeetingAdjustedHours != 0 || workHours.Fields.MeetingAdjustedMinutes != 0)
                         {
@@ -129,12 +137,28 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                         }
                         else
                         {
-                            teamHoursRow.Fields.MeetingAdjustedHours += workHours.Fields.MeetingHours;
-                            teamHoursRow.Fields.MeetingAdjustedMinutes += workHours.Fields.MeetingMinutes;
+                            if (_timeTrackerOptions.EnableTimer == true)
+                            {
+                                teamHoursRow.Fields.MeetingAdjustedHours += workHours.Fields.MeetingTimerHours;
+                                teamHoursRow.Fields.MeetingAdjustedMinutes += workHours.Fields.MeetingTimerMinutes;
+                            }
+                            else
+                            {
+                                teamHoursRow.Fields.MeetingAdjustedHours += workHours.Fields.MeetingHours;
+                                teamHoursRow.Fields.MeetingAdjustedMinutes += workHours.Fields.MeetingMinutes;
+                            }
                         }
 
-                        teamHoursRow.Fields.EmailHours += workHours.Fields.EmailHours;
-                        teamHoursRow.Fields.EmailMinutes += workHours.Fields.EmailMinutes;
+                        if (_timeTrackerOptions.EnableTimer == true)
+                        {
+                            teamHoursRow.Fields.EmailHours += workHours.Fields.EmailTimerHours;
+                            teamHoursRow.Fields.EmailMinutes += workHours.Fields.EmailTimerMinutes;
+                        }
+                        else
+                        {
+                            teamHoursRow.Fields.EmailHours += workHours.Fields.EmailHours;
+                            teamHoursRow.Fields.EmailMinutes += workHours.Fields.EmailMinutes;
+                        }
 
                         if (workHours.Fields.EmailAdjustedHours != 0 || workHours.Fields.EmailAdjustedMinutes != 0)
                         {
@@ -143,12 +167,28 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                         }
                         else
                         {
-                            teamHoursRow.Fields.EmailAdjustedHours += workHours.Fields.EmailHours;
-                            teamHoursRow.Fields.EmailAdjustedMinutes += workHours.Fields.EmailMinutes;
+                            if (_timeTrackerOptions.EnableTimer == true)
+                            {
+                                teamHoursRow.Fields.EmailAdjustedHours += workHours.Fields.EmailTimerHours;
+                                teamHoursRow.Fields.EmailAdjustedMinutes += workHours.Fields.EmailTimerMinutes;
+                            }
+                            else
+                            {
+                                teamHoursRow.Fields.EmailAdjustedHours += workHours.Fields.EmailHours;
+                                teamHoursRow.Fields.EmailAdjustedMinutes += workHours.Fields.EmailMinutes;
+                            }
                         }
 
-                        teamHoursRow.Fields.OtherHours += workHours.Fields.OtherHours;
-                        teamHoursRow.Fields.OtherMinutes += workHours.Fields.OtherMinutes;
+                        if (_timeTrackerOptions.EnableTimer == true)
+                        {
+                            teamHoursRow.Fields.OtherHours += workHours.Fields.OtherTimerHours;
+                            teamHoursRow.Fields.OtherMinutes += workHours.Fields.OtherTimerMinutes;
+                        }
+                        else
+                        {
+                            teamHoursRow.Fields.OtherHours += workHours.Fields.OtherHours;
+                            teamHoursRow.Fields.OtherMinutes += workHours.Fields.OtherMinutes;
+                        }
 
                         if (workHours.Fields.OtherAdjustedHours != 0 || workHours.Fields.OtherAdjustedMinutes != 0)
                         {
@@ -157,8 +197,16 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                         }
                         else
                         {
-                            teamHoursRow.Fields.OtherAdjustedHours += workHours.Fields.OtherHours;
-                            teamHoursRow.Fields.OtherAdjustedMinutes += workHours.Fields.OtherMinutes;
+                            if (_timeTrackerOptions.EnableTimer == true)
+                            {
+                                teamHoursRow.Fields.OtherAdjustedHours += workHours.Fields.OtherTimerHours;
+                                teamHoursRow.Fields.OtherAdjustedMinutes += workHours.Fields.OtherTimerMinutes;
+                            }
+                            else
+                            {
+                                teamHoursRow.Fields.OtherAdjustedHours += workHours.Fields.OtherHours;
+                                teamHoursRow.Fields.OtherAdjustedMinutes += workHours.Fields.OtherMinutes;
+                            }
                         }
 
                         teamHoursRow.Fields.TeamHoursItemState = ItemState.NotSubmitted;

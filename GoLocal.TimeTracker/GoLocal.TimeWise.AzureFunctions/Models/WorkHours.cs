@@ -68,6 +68,18 @@ namespace GoLocal.TimeWise.AzureFunctions.Models
         public short MeetingAdjustedMinutes { get; set; }
 
         /// <summary>
+        /// Meeting Timer Hours
+        /// </summary>
+        [JsonProperty("MeetingTimerHours")]
+        public short MeetingTimerHours { get; set; }
+
+        /// <summary>
+        /// Meeting Timer Minutes
+        /// </summary>
+        [JsonProperty("MeetingTimerMinutes")]
+        public short MeetingTimerMinutes { get; set; }
+
+        /// <summary>
         /// Email Hours
         /// </summary>
         [JsonProperty("EmailHours")]
@@ -92,6 +104,18 @@ namespace GoLocal.TimeWise.AzureFunctions.Models
         public short EmailAdjustedMinutes { get; set; }
 
         /// <summary>
+        /// Email Hours
+        /// </summary>
+        [JsonProperty("EmailTimerHours")]
+        public short EmailTimerHours { get; set; }
+
+        /// <summary>
+        /// Email Minutes
+        /// </summary>
+        [JsonProperty("EmailTimerMinutes")]
+        public short EmailTimerMinutes { get; set; }
+
+        /// <summary>
         /// Other Hours
         /// </summary>
         [JsonProperty("OtherHours")]
@@ -114,6 +138,18 @@ namespace GoLocal.TimeWise.AzureFunctions.Models
         /// </summary>
         [JsonProperty("OtherAdjustedMinutes")]
         public short OtherAdjustedMinutes { get; set; }
+
+        /// <summary>
+        /// Other Hours
+        /// </summary>
+        [JsonProperty("OtherTimerHours")]
+        public short OtherTimerHours { get; set; }
+
+        /// <summary>
+        /// Other Minutes
+        /// </summary>
+        [JsonProperty("OtherTimerMinutes")]
+        public short OtherTimerMinutes { get; set; }
 
         /// <summary>
         /// Adjusted Hours Reasons

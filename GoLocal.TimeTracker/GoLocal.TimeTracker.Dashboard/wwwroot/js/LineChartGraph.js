@@ -3,9 +3,14 @@
         "July", "August", "September", "October", "November", "December"
     ];
     var d = new Date();
-    d = monthNames[d.getMonth() - 1] + "," + d.getFullYear()
-    $('#txtMonthlyDate').val(d)
+    // Bug fix - If current month is Jan, dispaly previous year with December
+    if (d.getMonth() === 0) {
+        d = monthNames[11] + "," + parseInt(d.getFullYear() - 1);
+    } else {
+        d = monthNames[d.getMonth() - 1] + "," + d.getFullYear();
+    }
+    $('#txtMonthlyDate').val(d);
     GetResult(d);
-}
+};
 
 

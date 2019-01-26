@@ -696,4 +696,13 @@
   <data name="September" xml:space="preserve">
     <value>9月</value>
   </data>
+  <data name="Start" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>やめる</value>
+  </data>
+  <data name="TimerHours" xml:space="preserve">
+    <value>タイマー時間</value>
+  </data>
 </root>

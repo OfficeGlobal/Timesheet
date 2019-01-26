@@ -73,6 +73,9 @@ namespace GoLocal.TimeTracker.MiddleTier.Services
                     case ListSchema.UsersListSchema:
                         spSiteList.ListId = _timeTrackerOptions.SharePointUsersList;
                         break;
+                    case ListSchema.TimerHoursSchema:
+                        spSiteList.ListId = _timeTrackerOptions.TimerHoursListPrefix + identifier;
+                        break;
                 }
 
                 // Call to Graph API to check if SharePoint List exists.
@@ -97,6 +100,9 @@ namespace GoLocal.TimeTracker.MiddleTier.Services
                             break;
                         case ListSchema.UsersListSchema:
                             await CreateSiteListAsync(spSiteList, ListSchema.UsersListSchema);
+                            break;
+                        case ListSchema.TimerHoursSchema:
+                            await CreateSiteListAsync(spSiteList, ListSchema.TimerHoursSchema);
                             break;
                     }
                 }
@@ -146,6 +152,9 @@ namespace GoLocal.TimeTracker.MiddleTier.Services
                         break;
                     case ListSchema.UsersListSchema:
                         htmlBody = SharePointListsSchemaHelper.GetUsersMembershipJsonSchema(siteList.ListId);
+                        break;
+                    case ListSchema.TimerHoursSchema:
+                        htmlBody = SharePointListsSchemaHelper.GetTimerHoursJsonSchema(siteList.ListId);
                         break;
                 }
 

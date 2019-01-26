@@ -6,6 +6,7 @@ var transparent = true;
 var fixedTop = false;
 
 var navbar_initialized = false;
+var timerListId = "";
 
 $(document).ready(function(){
     window_width = $(window).width();
@@ -87,22 +88,22 @@ $(window).on('resize', function(){
 });
 
 lbd = {
-    misc:{
+    misc: {
         navbar_menu_visible: 0
     },
 
-    checkSidebarImage: function(){
+    checkSidebarImage: function () {
         $sidebar = $('.sidebar');
         image_src = $sidebar.data('image');
 
-        if(image_src !== undefined){
+        if (image_src !== undefined) {
             sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>'
             $sidebar.append(sidebar_container);
         }
     },
 
-    initRightMenu: debounce(function(){
-        if(!navbar_initialized){
+    initRightMenu: debounce(function () {
+        if (!navbar_initialized) {
             $sidebar_wrapper = $('.sidebar-wrapper');
             $navbar = $('nav').find('.navbar-collapse').html();
 
@@ -112,32 +113,32 @@ lbd = {
 
             nav_content = '<ul class="nav nav-mobile-menu">' + nav_content + '</ul>';
 
-            
+
 
             $sidebar_nav = $sidebar_wrapper.find(' > .nav');
 
-            
-            $nav_content = $(nav_content);
-            
-            $nav_content.insertBefore($sidebar_nav);
-           
 
-            $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").click(function(event) {
+            $nav_content = $(nav_content);
+
+            $nav_content.insertBefore($sidebar_nav);
+
+
+            $(".sidebar-wrapper .dropdown .dropdown-menu > li > a").click(function (event) {
                 event.stopPropagation();
 
             });
 
             mobile_menu_initialized = true;
         } else {
-            if($(window).width() > 991){
-              
+            if ($(window).width() > 991) {
+
                 $sidebar_wrapper.find('.nav-mobile-menu').remove();
 
                 mobile_menu_initialized = false;
             }
         }
-    },200)
-}
+    }, 200)
+};
 
 
 
@@ -152,7 +153,7 @@ function debounce(func, wait, immediate) {
 		}, wait);
 		if (immediate && !timeout) func.apply(context, args);
 	};
-};
+}
 
 (function () {
     // Activate side bar menu item 

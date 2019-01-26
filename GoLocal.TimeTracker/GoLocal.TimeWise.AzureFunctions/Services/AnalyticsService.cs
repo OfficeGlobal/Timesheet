@@ -96,7 +96,7 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                         }
 
                         WorkHoursFields whf = WorkHoursRepository.ConvertToWorkHours(workHoursItem, userObjectIdentifier);
-                        Dictionary<string, short> dailyTotals = Helpers.HoursComputeHelper.ComputeDailyTotals(whf);
+                        Dictionary<string, short> dailyTotals = Helpers.HoursComputeHelper.ComputeDailyTotals(whf,_timeTrackerOptions);
 
                         // calculate totals and overtime
                         int totalHours = Convert.ToInt16(dailyTotals["FinalTotalHrs"]);

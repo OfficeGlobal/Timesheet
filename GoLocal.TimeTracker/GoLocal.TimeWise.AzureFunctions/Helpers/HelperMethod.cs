@@ -116,12 +116,12 @@ namespace GoLocal.TimeWise.AzureFunctions.Helpers
 			return authProvider;
 		}
 
-		private GraphAppCalendarService GetGraphAppCalendarService(string identifier)
+		public GraphAppCalendarService GetGraphAppCalendarService(string identifier)
 		{
 			return new GraphAppCalendarService(getAuthProvider(), GetUserContext(), getTimeTrackerOptions(), GetTimezoneHelper(), identifier);
 		}
 
-		private GraphAppMailService GetGraphAppMailService(string identifier)
+		public GraphAppMailService GetGraphAppMailService(string identifier)
 		{
 			return new GraphAppMailService(getAuthProvider(), GetUserContext(), GetTimezoneHelper(), getTimeTrackerOptions(), identifier);
 		}

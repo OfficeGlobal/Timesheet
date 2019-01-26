@@ -44,6 +44,14 @@ namespace GoLocal.TimeTracker.MiddleTier.Helpers
       'number': {}
     },
     {
+      'name': 'MeetingTimerHours',
+      'number': {}
+    },
+    {
+      'name': 'MeetingTimerMinutes',
+      'number': {}
+    },
+    {
       'name': 'EmailHours',
       'number': {}
     },
@@ -60,6 +68,14 @@ namespace GoLocal.TimeTracker.MiddleTier.Helpers
       'number': {}
     },
     {
+      'name': 'EmailTimerHours',
+      'number': {}
+    },
+    {
+      'name': 'EmailTimerMinutes',
+      'number': {}
+    },
+    {
       'name': 'OtherHours',
       'number': {}
     },
@@ -73,6 +89,14 @@ namespace GoLocal.TimeTracker.MiddleTier.Helpers
     },
     {
       'name': 'OtherAdjustedMinutes',
+      'number': {}
+    },
+    {
+      'name': 'OtherTimerHours',
+      'number': {}
+    },
+    {
+      'name': 'OtherTimerMinutes',
       'number': {}
     },
     {
@@ -439,8 +463,33 @@ namespace GoLocal.TimeTracker.MiddleTier.Helpers
 }";
             return json;
         }
-    }
 
+
+        public static string GetTimerHoursJsonSchema(string displayName)
+        {
+            string json = @"
+            {
+              'displayName': '" + displayName + @"',
+              'columns': [
+                {
+                  'name': 'Date',
+                  'text': {},
+                  'indexed': true
+                },
+                {
+                  'name': 'StartTime',
+                  'text': {}
+                },
+                {
+                  'name': 'StopTime',
+                  'text': {},
+                  'indexed': true
+                }
+                 ]
+            }";
+            return json;
+        }
+    }
 
     public enum ListSchema
     {
@@ -449,6 +498,7 @@ namespace GoLocal.TimeTracker.MiddleTier.Helpers
         ReportHoursListSchema,
         NotificationsListSchema,
         UsersListSchema,
-        TotalHrsListSchema
+        TotalHrsListSchema,
+        TimerHoursSchema
     }
 }

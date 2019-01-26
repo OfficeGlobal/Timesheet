@@ -102,7 +102,7 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                     DateTime localReadTime;
                     if (localTimeZone.IsInvalidTime(readTime) == false) // Skip invalid Local Daylight Savings Time values.
                     {
-                        localReadTime = TimeZoneInfo.ConvertTime(readTime, definedZone);
+                        localReadTime = TimeZoneInfo.ConvertTimeFromUtc(readTime, definedZone);
                         resultsItemProperties.Add("DateTime", localReadTime);
                         resultsItemProperties.Add("Categories", item.Categories);
                         resultsItemProperties.Add("EmailType", "received");
@@ -131,7 +131,7 @@ namespace GoLocal.TimeWise.AzureFunctions.Services
                 // createdDateTime gt
                 var sentGraphResponse = await GraphAppClient.Users[_userObjectIdentifier].MailFolders.SentItems.Messages.Request(sentOptions).GetAsync();
                 var sentMailItems = new List<GraphResultItem>();
-                if (sentGraphResponse?.Count == 0) return sentMailItems; // sent mail events found for this query
+                if (sentGraphResponse?.Count == 0) return mailItems; // sent mail events found for this query
 
                 var sentMailResults = new List<Message>();
                 sentMailResults.AddRange(sentGraphResponse);

@@ -129,7 +129,7 @@ namespace GoLocal.TimeTracker.MiddleTier.Services.AppContext
                 // createdDateTime gt
                 var sentGraphResponse = await GraphAppClient.Users[userObjectIdentifier].MailFolders.SentItems.Messages.Request(sentOptions).GetAsync();
                 var sentMailItems = new List<GraphResultItem>();
-                if (sentGraphResponse?.Count == 0) return sentMailItems; // sent mail events found for this query
+                if (sentGraphResponse?.Count == 0) return mailItems; // sent mail events found for this query
 
                 var sentMailResults = new List<Message>();
                 sentMailResults.AddRange(sentGraphResponse);

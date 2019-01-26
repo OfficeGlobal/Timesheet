@@ -356,8 +356,14 @@ namespace GoLocal.TimeTracker.MiddleTier.Repositories
 							EmailHours = 0,
 							EmailMinutes = 0,
 							OtherHours = 0,
-							OtherMinutes = 0
-						};
+                            OtherMinutes = 0,
+                            OtherTimerHours = 0,
+                            OtherTimerMinutes = 0,
+                            EmailTimerHours = 0,
+                            EmailTimerMinutes = 0,
+                            MeetingTimerHours = 0,
+                            MeetingTimerMinutes = 0
+                        };
 
 						#region calendar items
 						// var calendarResults = await taskCalendar;
@@ -512,8 +518,14 @@ namespace GoLocal.TimeTracker.MiddleTier.Repositories
 							fieldsObject.AdjustedHoursReason = workHoursFields.AdjustedHoursReason;
 							fieldsObject.TeamHoursItemState = workHoursFields.TeamHoursItemState.ToString();
 							fieldsObject.ItemState = workHoursFields.ItemState.ToString();
+                            fieldsObject.MeetingTimerHours = workHoursFields.MeetingTimerHours.ToString();
+                            fieldsObject.MeetingTimerMinutes = workHoursFields.MeetingTimerMinutes.ToString();
+                            fieldsObject.EmailTimerHours = workHoursFields.EmailTimerHours.ToString();
+                            fieldsObject.EmailTimerMinutes = workHoursFields.EmailTimerMinutes.ToString();
+                            fieldsObject.OtherTimerHours = workHoursFields.OtherTimerHours.ToString();
+                            fieldsObject.OtherTimerMinutes = workHoursFields.OtherTimerMinutes.ToString();
 
-							dynamic jsonObject = new JObject();
+                            dynamic jsonObject = new JObject();
 							jsonObject.fields = fieldsObject;
 
 							// Call graph to create the item in the SHarePoint List
@@ -661,7 +673,13 @@ namespace GoLocal.TimeTracker.MiddleTier.Repositories
                             EmailHours = 0,
                             EmailMinutes = 0,
                             OtherHours = 0,
-                            OtherMinutes = 0
+                            OtherMinutes = 0,
+                            OtherTimerHours = 0,
+                            OtherTimerMinutes = 0,
+                            EmailTimerHours = 0,
+                            EmailTimerMinutes = 0,
+                            MeetingTimerHours = 0,
+                            MeetingTimerMinutes = 0
                         };
 
                         #region calendar items
@@ -818,6 +836,12 @@ namespace GoLocal.TimeTracker.MiddleTier.Repositories
                             fieldsObject.AdjustedHoursReason = workHoursFields.AdjustedHoursReason;
                             fieldsObject.TeamHoursItemState = workHoursFields.TeamHoursItemState.ToString();
                             fieldsObject.ItemState = workHoursFields.ItemState.ToString();
+                            fieldsObject.MeetingTimerHours = workHoursFields.MeetingTimerHours.ToString();
+                            fieldsObject.MeetingTimerMinutes = workHoursFields.MeetingTimerMinutes.ToString();
+                            fieldsObject.EmailTimerHours = workHoursFields.EmailTimerHours.ToString();
+                            fieldsObject.EmailTimerMinutes = workHoursFields.EmailTimerMinutes.ToString();
+                            fieldsObject.OtherTimerHours = workHoursFields.OtherTimerHours.ToString();
+                            fieldsObject.OtherTimerMinutes = workHoursFields.OtherTimerMinutes.ToString();
 
                             dynamic jsonObject = new JObject();
                             jsonObject.fields = fieldsObject;
@@ -855,12 +879,18 @@ namespace GoLocal.TimeTracker.MiddleTier.Repositories
                 if (graphResultsItem.Properties.TryGetValue("MeetingMinutes", out objectValue)) workHoursFields.MeetingMinutes = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("MeetingAdjustedHours", out objectValue)) workHoursFields.MeetingAdjustedHours = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("MeetingAdjustedMinutes", out objectValue)) workHoursFields.MeetingAdjustedMinutes = Convert.ToInt16(objectValue);
+                if (graphResultsItem.Properties.TryGetValue("MeetingTimerHours", out objectValue)) workHoursFields.MeetingTimerHours = Convert.ToInt16(objectValue);
+                if (graphResultsItem.Properties.TryGetValue("MeetingTimerMinutes", out objectValue)) workHoursFields.MeetingTimerMinutes = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("EmailHours", out objectValue)) workHoursFields.EmailHours = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("EmailMinutes", out objectValue)) workHoursFields.EmailMinutes = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("EmailAdjustedHours", out objectValue)) workHoursFields.EmailAdjustedHours = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("EmailAdjustedMinutes", out objectValue)) workHoursFields.EmailAdjustedMinutes = Convert.ToInt16(objectValue);
+                if (graphResultsItem.Properties.TryGetValue("EmailTimerHours", out objectValue)) workHoursFields.EmailTimerHours = Convert.ToInt16(objectValue);
+                if (graphResultsItem.Properties.TryGetValue("EmailTimerMinutes", out objectValue)) workHoursFields.EmailTimerMinutes = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("OtherHours", out objectValue)) workHoursFields.OtherHours = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("OtherMinutes", out objectValue)) workHoursFields.OtherMinutes = Convert.ToInt16(objectValue);
+                if (graphResultsItem.Properties.TryGetValue("OtherTimerHours", out objectValue)) workHoursFields.OtherTimerHours = Convert.ToInt16(objectValue);
+                if (graphResultsItem.Properties.TryGetValue("OtherTimerMinutes", out objectValue)) workHoursFields.OtherTimerMinutes = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("OtherAdjustedHours", out objectValue)) workHoursFields.OtherAdjustedHours = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("OtherAdjustedMinutes", out objectValue)) workHoursFields.OtherAdjustedMinutes = Convert.ToInt16(objectValue);
                 if (graphResultsItem.Properties.TryGetValue("AdjustedHoursReason", out objectValue)) workHoursFields.AdjustedHoursReason = objectValue.ToString();

@@ -111,6 +111,7 @@ namespace GoLocal.TimeTracker.Dashboard
             services.AddScoped<IMonthlyReportHoursService<MyMonthlyHoursViewModel>, MonthlyReportHoursService>();
             services.AddScoped<IWeeklyReportHoursService<WeeklyHoursViewModel>, WeeklyReportHoursService>();
             services.AddScoped<Interfaces.IAnalyticsServiceDashBoard<AnalyticsViewModel>, AnalyticsService>();
+            services.AddScoped<ITimerHoursService, TimerHoursService>();
 
             // Register configuration options
             services.Configure<TimeTrackerOptions>(Configuration.GetSection("TimeTracker"));
@@ -130,6 +131,7 @@ namespace GoLocal.TimeTracker.Dashboard
             services.AddScoped<IRepository<ReportHours>, ReportHoursRepository>();
             services.AddScoped<IRepository<Notifications>, NotificationsRepository>();
             services.AddScoped<IRepository<Analytics>, AnalyticsRepository>();
+            services.AddScoped<ITimerHoursRepository, TimerHoursRepository>();
             // Register Graph Api services
             // TODO: Varma:  appuser adn appsharepointsvc are added as singleton above.  Fix it.
             services.AddScoped<GraphAppTasksService>();

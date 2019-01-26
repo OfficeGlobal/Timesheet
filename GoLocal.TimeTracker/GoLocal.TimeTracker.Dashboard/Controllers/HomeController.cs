@@ -35,6 +35,7 @@ using System.Security.Claims;
 using GoLocal.TimeTracker.Dashboard.Resources;
 using GoLocal.TimeTracker.MiddleTier.Helpers;
 using GoLocal.TimeTracker.MiddleTier.Services.AppContext;
+using GoLocal.TimeTracker.Dashboard.Interfaces;
 
 namespace GoLocal.TimeTracker.Dashboard.Controllers
 {
@@ -52,6 +53,7 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
         private MiddleTier.Models.UserProfile _userProfile;
         private readonly LocService _sharedLocalizer;
         private readonly ICacheService<ListCollectionPage<WorkHours>> _cacheService;
+        private readonly ITimerHoursService _timerHoursService;
 
         /// <summary>
         /// Constructor
@@ -65,7 +67,9 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
             IRepository<MiddleTier.Models.UserProfile> userProfileRepository,
             GraphAppSharePointService graphSharePointService,
             IDataService dataServiceClient,
-            LocService sharedLocalizer, ICacheService<ListCollectionPage<WorkHours>> cacheService)
+            LocService sharedLocalizer, 
+            ICacheService<ListCollectionPage<WorkHours>> cacheService,
+            ITimerHoursService timerHoursService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _timeTrackerOptions = timeTrackerOptions.Value ?? throw new ArgumentNullException(nameof(timeTrackerOptions));
@@ -74,6 +78,7 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
             _sharedLocalizer = sharedLocalizer ?? throw new ArgumentNullException(nameof(logger));
             _userProfileRepository = userProfileRepository ?? throw new ArgumentNullException(nameof(userProfileRepository));
             _cacheService = cacheService ?? throw new ArgumentNullException(nameof(cacheService));
+            _timerHoursService = timerHoursService ?? throw new ArgumentNullException(nameof(timerHoursService));
         }
 
         public async Task<IActionResult> Index()
@@ -87,7 +92,6 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
                 ViewData["IsHr"] = _userProfile.Fields.IsHr;
                 ViewData["IsAdmin"] = _userProfile.Fields.IsAdmin;
                 ViewData["UserImage"] = _userProfile.Fields.UserPicture;
-
                 String firstDayOfWeek = _userProfile.Fields.FirstDayWeek;
 				
                 // Get current week data for Dashboard initially
@@ -108,6 +112,7 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
                 dashboardViewModel.currentWeekData = (isExisted == true) ? false : true;
                 dashboardViewModel.UserInfo = _userProfile;
                 dashboardViewModel.WorkHoursEditable = (isExisted == true) ? true : false;
+                dashboardViewModel.EnableTimer = _timeTrackerOptions.EnableTimer;
 				return View(dashboardViewModel);
 			
             }
@@ -140,9 +145,9 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
 				dashboardViewModel.UserInfo = _userProfile;
 
 				dashboardViewModel.WorkHoursEditable = _timeTrackerOptions.WorkHoursEditable;
+                dashboardViewModel.EnableTimer = _timeTrackerOptions.EnableTimer;
 
-				
-				return View(nameof(Index), dashboardViewModel);
+                return View(nameof(Index), dashboardViewModel);
 				
 
 			}
@@ -175,9 +180,9 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
 
                 dashboardViewModel.UserInfo = _userProfile;
                 dashboardViewModel.WorkHoursEditable = _timeTrackerOptions.WorkHoursEditable;
-				
+                dashboardViewModel.EnableTimer = _timeTrackerOptions.EnableTimer;
 
-				dashboardViewModel.OTcomputation(Convert.ToInt16(_timeTrackerOptions.DayHours), Convert.ToInt16(_timeTrackerOptions.WeekHours), Convert.ToInt16(_timeTrackerOptions.MonthHours));
+                dashboardViewModel.OTcomputation(Convert.ToInt16(_timeTrackerOptions.DayHours), Convert.ToInt16(_timeTrackerOptions.WeekHours), Convert.ToInt16(_timeTrackerOptions.MonthHours));
                 return View(nameof(Index), dashboardViewModel);
             }
             else
@@ -277,44 +282,7 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
 			}
             return Json(response);
         }
-		/*
-        public async Task<IActionResult> Weekly(string dt)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Get UserProfile details
-                _userProfile = await _dataServiceClient.GetUserProfile(User, HttpContext);
-                ViewData["Email"] = _userProfile.Fields.Upn;
-                ViewData["IsManager"] = _userProfile.Fields.IsManager;
-                ViewData["IsHr"] = _userProfile.Fields.IsHr;
-                ViewData["IsAdmin"] = _userProfile.Fields.IsAdmin;
-                ViewData["UserImage"] = _userProfile.Fields.UserPicture;
 
-                DateTime selDt = DateTime.Now.AddDays(-DateTime.Now.Day);
-                if (dt != null)
-                {
-                    selDt = Convert.ToDateTime(dt.ToString());
-                }
-                
-
-                var viewModel = await _dataServiceClient.GetWeeklyReportHours(
-                    User,
-                    HttpContext,
-                   selDt);
-                viewModel.ComputeTotalHrs();
-                viewModel.SelectedDate = selDt;
-                return View(viewModel);
-            }
-            else
-            {
-                ErrorViewModel EVM = new ErrorViewModel();
-
-                return View(EVM);
-            }
-        }
-		*/
-
-		//public async Task<IActionResult> Weekly(string dt)
 		public async Task<IActionResult> Weekly(string selMonthDt, string empNameFilter = default(string), int pageId = 0, int pageSize = 10, ListCollectionPage<ReportHours> reportHours = null, int status = 0)
 		{
 			var ci = System.Threading.Thread.CurrentThread.CurrentCulture;
@@ -1101,8 +1069,56 @@ namespace GoLocal.TimeTracker.Dashboard.Controllers
 			}
 		}
 
+        [HttpPost]
+        public async Task CreateTimerHours()
+        {
+            var requestId = Guid.NewGuid().ToString();
+            _logger.LogInformation($"RequestID:{requestId} HomeController_CreateTimerHours called.");
 
-		public Dictionary<string,Int32> SplitHrMin(string str)
+            try
+            {
+                await _timerHoursService.createTimerHoursAsync(requestId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"RequestID:{requestId} HomeController_CreateTimerHours error: {ex.Message}");
+                throw;
+            }
+        }
+        [HttpPatch]
+        public async Task UpdateTimerHours()
+        {
+            var requestId = Guid.NewGuid().ToString();
+            _logger.LogInformation($"RequestID:{requestId} HomeController_CreateTimerHours called.");
+
+            try
+            {
+                await _timerHoursService.UpdateTimerHoursAsync(requestId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"RequestID:{requestId} HomeController_CreateTimerHours error: {ex.Message}");
+                throw;
+            }
+        }
+        [HttpGet]
+        public async Task<bool> GetStartStopButtonStatus()
+        {
+            var requestId = Guid.NewGuid().ToString();
+            _logger.LogInformation($"RequestID:{requestId} HomeController_GetStartStopButtonStatus called.");
+
+            try
+            {
+               bool status = await _timerHoursService.GetStartStopButtonStatusAsync(requestId);
+               return status;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"RequestID:{requestId} HomeController_GetStartStopButtonStatus error: {ex.Message}");
+                throw;
+            }
+        }
+        public Dictionary<string,Int32> SplitHrMin(string str)
         {
             Dictionary<string, int> hrMin = new Dictionary<string, int>();
               var  splitStr=  str.Split(';').Select(x => x.Split(':'));

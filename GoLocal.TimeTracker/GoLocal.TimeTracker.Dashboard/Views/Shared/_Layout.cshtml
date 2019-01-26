@@ -54,8 +54,25 @@
                     <a class="navbar-brand NavName" href="@Url.Action("Index", "Home")">@SharedLocalizer.GetLocalizedHtmlString("Title")</a>
                 </div>
                 <div class="">
-                    <ul class="nav navbar-nav navbar-right">
 
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <label class="lblTimer hidden">
+                                <span class="navbar-brand NavName">
+                                    <a class="active timerButton hidden" id="btnStart">
+                                        <i class="ms-Icon ms-Icon--Clock" title="Timer" aria-hidden="true"></i>&nbsp;
+                                        @SharedLocalizer.GetLocalizedHtmlString("Start")
+                                    </a>
+                                    <a class="active timerButton hidden" id="btnStop">
+                                        <span class="">
+                                            <i class="ms-Icon ms-Icon--Clock" title="Stopwatch" aria-hidden="true"></i>&nbsp;
+                                            @SharedLocalizer.GetLocalizedHtmlString("Stop")
+                                        </span>
+                                    </a>
+                                </span>
+
+                            </label>
+                        </li>
                         <li class="nav-item dropdown activeLink">
                             <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="@Url.Action("Notifications", "Home")">
                                 <i class="ms-Icon ms-Icon--Ringer font-white font30" aria-hidden="true"></i> <span class="pull-right label label-danger labelInfo notificationUnReadCount"></span>
@@ -114,20 +131,20 @@
                                         <i class="ms-Panel-closeIcon ms-Icon ms-Icon--Cancel"></i>
                                     </button>
                                     <div class="ms-Panel-contentInner">
-										<p class="ms-Panel-headerText">@SharedLocalizer.GetLocalizedHtmlString("Help")</p>
+                                        <p class="ms-Panel-headerText">@SharedLocalizer.GetLocalizedHtmlString("Help")</p>
                                         <div class="ms-Panel-content">
-											<ul class="rightPanel">
-												<li class="ms-font-m"> <a href="mailto:<to be updated>"> @SharedLocalizer.GetLocalizedHtmlString("Feedback") / @SharedLocalizer.GetLocalizedHtmlString("Support") </a>  </li>
-												@if (@System.Threading.Thread.CurrentThread.CurrentUICulture.ToString() == "ja")
-												{
-													<li class="ms-font-m"> <a href="#" target="popup" onclick="window.open('../about-ja.html', 'name', 'width=600,height=400')"> @SharedLocalizer.GetLocalizedHtmlString("About") </a>  </li>
-												}
-												else
-												{
-													<li class="ms-font-m"> <a href="#" target="popup" onclick="window.open('../about.html', 'name', 'width=600,height=400')"> @SharedLocalizer.GetLocalizedHtmlString("About") </a>  </li>
-												}
+                                            <ul class="rightPanel">
+                                                <li class="ms-font-m"> <a href="mailto:<to be updated>"> @SharedLocalizer.GetLocalizedHtmlString("Feedback") / @SharedLocalizer.GetLocalizedHtmlString("Support") </a>  </li>
+                                                @if (@System.Threading.Thread.CurrentThread.CurrentUICulture.ToString() == "ja")
+                                                {
+                                                    <li class="ms-font-m"> <a href="#" target="popup" onclick="window.open('../about-ja.html', 'name', 'width=600,height=400')"> @SharedLocalizer.GetLocalizedHtmlString("About") </a>  </li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="ms-font-m"> <a href="#" target="popup" onclick="window.open('../about.html', 'name', 'width=600,height=400')"> @SharedLocalizer.GetLocalizedHtmlString("About") </a>  </li>
+                                                }
 
-											</ul>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +215,7 @@
                         </a>
 
                     </li>
-                     @if (Convert.ToBoolean(ViewData["IsManager"]))
+                    @if (Convert.ToBoolean(ViewData["IsManager"]))
                     {
                         <li>
                             <a href="@Url.Action("MyTeams", "Home")" id="lnkMyTeams">
@@ -209,21 +226,21 @@
                     }
                     @if (Convert.ToBoolean(ViewData["IsHr"]) || Convert.ToBoolean(ViewData["IsAdmin"]))
                     {
-                       
+
                         <li>
                             <a href="@Url.Action("Monthly", "Home")" id="lnkMonthly">
                                 <i class="ms-Icon ms-Icon--CalendarWorkWeek" aria-hidden="true"></i>
                                 <p>@SharedLocalizer.GetLocalizedHtmlString("lblReportHours") &nbsp; &nbsp; <span class="pageLoader lnkMonthly hidden">  <img src="~/images/Loading.gif" class="" height="15" /></span></p>
                             </a>
                         </li>
-                         <li>
+                        <li>
                             <a href="@Url.Action("Analytics", "Home")" id="lnkWeekly">
                                 <i class="ms-Icon ms-Icon--BIDashboard " aria-hidden="true"></i>
                                 <p>@SharedLocalizer.GetLocalizedHtmlString("lblAnalytics") &nbsp; &nbsp;<span class="pageLoader lnkWeekly hidden">  <img src="~/images/Loading.gif" class="" height="15" /></span></p>
                             </a>
                         </li>
                     }
-                 
+
                 </ul>
             </div>
         </div>
@@ -252,18 +269,20 @@
         @*<script src="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-js/1.4.0/js/fabric.min.js"></script>*@
 
         @{
-        var requestCulture = Context.Features.Get<IRequestCultureFeature>();
-        if (requestCulture.RequestCulture.UICulture.Name == "ja-JP" || requestCulture.RequestCulture.UICulture.Name == "ja")
-        {
-            <script src="~/js/fabric.JP.js"></script>
-            <script src="~/js/picker.js"></script>
-            <script src="~/js/PickaDate.js"></script>
-            <script src="~/js/ja_JP.js"></script>
-        }else{
-        <script src="~/js/fabric.min.js"></script>
-        <script src="~/js/picker.js"></script>
-        <script src="~/js/PickaDate.js"></script>
-        }}
+            var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+            if (requestCulture.RequestCulture.UICulture.Name == "ja-JP" || requestCulture.RequestCulture.UICulture.Name == "ja")
+            {
+                <script src="~/js/fabric.JP.js"></script>
+                <script src="~/js/picker.js"></script>
+                <script src="~/js/PickaDate.js"></script>
+                <script src="~/js/ja_JP.js"></script>
+            }
+            else
+            {
+                <script src="~/js/fabric.min.js"></script>
+                <script src="~/js/picker.js"></script>
+                <script src="~/js/PickaDate.js"></script>
+            }}
         <script src="~/js/timetracker.js" asp-append-version="true"></script>
         <script src="~/js/office-fabric.js" asp-append-version="true"></script>
         <script src="~/js/Exportfiles.js"></script>
@@ -294,11 +313,11 @@
         <script src="~/js/timepicki.js"></script>
         <script src="~/js/PickaDate.js"></script>
         @{
-        var requestMyCulture = Context.Features.Get<IRequestCultureFeature>();
-        if (requestMyCulture.RequestCulture.UICulture.Name == "ja-JP" || requestMyCulture.RequestCulture.UICulture.Name == "ja-JP")
-        {
-            <script src="~/js/ja_JP.js"></script>
-    }
+            var requestMyCulture = Context.Features.Get<IRequestCultureFeature>();
+            if (requestMyCulture.RequestCulture.UICulture.Name == "ja-JP" || requestMyCulture.RequestCulture.UICulture.Name == "ja-JP")
+            {
+                <script src="~/js/ja_JP.js"></script>
+            }
         }
         <script src="~/js/timetracker.js" asp-append-version="true"></script>
         <script src="~/js/office-fabric.js" asp-append-version="true"></script>
@@ -342,6 +361,7 @@
                 error: function (err) {
                 }
             });
+
         });
 
     </script>

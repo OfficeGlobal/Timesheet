@@ -393,8 +393,44 @@
                             </div>
 
                             <div class="ms-Grid  GraphTimings">
-                                <div class="ms-Grid-col ms-sm12 ms-lg12">
-                                    <h5> @SharedLocalizer.GetLocalizedHtmlString("CalculatedHours") </h5>
+                                <div class="ms-Grid-row">
+                                    <div class="ms-Grid-col ms-sm12 ms-lg12 timerDivs hidden">
+                                        <h5> @SharedLocalizer.GetLocalizedHtmlString("TimerHours") </h5>
+                                    </div>
+                                </div>
+                                <div class="ms-Grid-row timerDivs hidden">
+                                    <div class="ms-Grid-col ms-sm12 ms-lg4 ">
+                                        <div class="ms-Grid">
+                                            <h2> <span class="BlueICon"> <i class="ms-Icon ms-Icon--CalendarWorkWeek" aria-hidden="true"></i> </span>@SharedLocalizer.GetLocalizedHtmlString("MeetingHours")  </h2>
+                                        </div>
+
+                                        <div class="ms-Grid">
+                                            <h3><font id="txtTodayMeetingTimerHrs">@Model.TodayMeetingHours</font>@SharedLocalizer.GetLocalizedHtmlString("hour") <font id="txtTodayMeetingTimerMin">@Model.TodayMeetingMins</font>@SharedLocalizer.GetLocalizedHtmlString("minute")</h3>
+                                        </div>
+                                    </div>
+                                    <div class="ms-Grid-col ms-sm12 ms-lg4 ">
+                                        <div class="ms-Grid">
+                                            <h2> <span class="BlueICon"><i class="ms-Icon ms-Icon--Mail" aria-hidden="true"></i>  </span>@SharedLocalizer.GetLocalizedHtmlString("EmailHours")  </h2>
+                                        </div>
+
+                                        <div class="ms-Grid">
+                                            <h3><font id="txtTodayEmailTimerHrs">@Model.TodayEmailHours</font>@SharedLocalizer.GetLocalizedHtmlString("hour")  <font id="txtTodayEmailTimerMin">@Model.TodayEmailMins</font>@SharedLocalizer.GetLocalizedHtmlString("minute")</h3>
+                                        </div>
+                                    </div>
+                                    <div class="ms-Grid-col ms-sm12 ms-lg4 ">
+                                        <div class="ms-Grid">
+                                            <h2> <span class="BlueICon"><i class="ms-Icon ms-Icon--DynamicSMBLogo" aria-hidden="true"></i>  </span>@SharedLocalizer.GetLocalizedHtmlString("OtherHours") </h2>
+                                        </div>
+
+                                        <div class="ms-Grid">
+                                            <h3><font id="txtTodayOtherTimerHrs">@Model.TodayOtherHours</font>@SharedLocalizer.GetLocalizedHtmlString("hour")  <font id="txtTodayOtherTimerMin">@Model.TodayOtherMins</font>@SharedLocalizer.GetLocalizedHtmlString("minute")</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ms-Grid-row">
+                                    <div class="ms-Grid-col ms-sm12 ms-lg12">
+                                        <h5> @SharedLocalizer.GetLocalizedHtmlString("CalculatedHours") </h5>
+                                    </div>
                                 </div>
                                 <div class="ms-Grid-row">
 
@@ -519,9 +555,10 @@
 
 <script>
 	var postedData = "false";
-			var lastSubmittedDate = "@Model.SubmittedOn.ToShortDateString()";
+    var lastSubmittedDate = "@Model.SubmittedOn.ToShortDateString()";
 
-			var isCurrentWeek = "@Model.currentWeekData";
+    var isCurrentWeek = "@Model.currentWeekData";
+    var isEnableTimer = "@(Model.EnableTimer)" === "True" ? true : false;
 
 function doEditHours() {
     $("#divTotalAdjTime,#TotalAdjErrMSg").addClass('hidden').hide();
@@ -552,6 +589,12 @@ function doEditHours() {
 
             if (res.responseCode > 0) {
                 // ToDO: Bind data
+                $("#txtTodayMeetingTimerHrs").text(fnTwoDigitsFormat(res["data"][0].fields.MeetingTimerHours));
+                $("#txtTodayMeetingTimerMin").text(fnTwoDigitsFormat(res["data"][0].fields.MeetingTimerMinutes));
+                $("#txtTodayEmailTimerHrs").text(fnTwoDigitsFormat(res["data"][0].fields.EmailTimerHours));
+                $("#txtTodayEmailTimerMin").text(fnTwoDigitsFormat(res["data"][0].fields.EmailTimerMinutes));
+                $("#txtTodayOtherTimerHrs").text(fnTwoDigitsFormat(res["data"][0].fields.OtherTimerHours));
+                $("#txtTodayOtherTimerMin").text(fnTwoDigitsFormat(res["data"][0].fields.OtherTimerMinutes));
                 $("#txtTodayMeetingHrs").attr("modelId", res["data"][0].id);
                 $("#txtTodayMeetingHrs").text(fnTwoDigitsFormat(res["data"][0].fields.MeetingHours));
                 $("#txtTodayMeetingMin").text(fnTwoDigitsFormat(res["data"][0].fields.MeetingMinutes));
@@ -560,25 +603,39 @@ function doEditHours() {
                 $("#txtTodayOtherHrs").text(fnTwoDigitsFormat(res["data"][0].fields.OtherHours));
                 $("#txtTodayOtherMin").text(fnTwoDigitsFormat(res["data"][0].fields.OtherMinutes));
                 $("#txtAdjReason").val(res["data"][0].fields.AdjustedHoursReason);
-                /*$("#txtAdjMeetingHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.MeetingAdjustedHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.MeetingAdjustedMinutes));
-                $("#txtAdjEmailHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.EmailAdjustedHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.EmailAdjustedMinutes));
-                $("#txtAdjOtherWorkHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.OtherAdjustedHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.OtherAdjustedMinutes));*/
+                if (isEnableTimer) {
+                    $(".timerDivs").removeClass("hidden");
+                }
+
+                // adjusted values greater than zero dispaly in textbox or else display timer values
                 if (res["data"][0].fields.MeetingAdjustedHours > 0 || res["data"][0].fields.MeetingAdjustedMinutes > 0) {
                     $("#txtAdjMeetingHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.MeetingAdjustedHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.MeetingAdjustedMinutes));
                 } else {
-                    $("#txtAdjMeetingHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.MeetingHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.MeetingMinutes));
+                    if (isEnableTimer === true) {
+                        $("#txtAdjMeetingHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.MeetingTimerHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.MeetingTimerMinutes));
+                    } else {
+                        $("#txtAdjMeetingHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.MeetingHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.MeetingMinutes));
+                    }
                 }
 
                 if (res["data"][0].fields.EmailAdjustedHours > 0 || res["data"][0].fields.EmailAdjustedMinutes > 0) {
                     $("#txtAdjEmailHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.EmailAdjustedHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.EmailAdjustedMinutes));
                 } else {
-                    $("#txtAdjEmailHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.EmailHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.EmailMinutes));
+                    if (isEnableTimer === true) {
+                        $("#txtAdjEmailHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.EmailTimerHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.EmailTimerMinutes));
+                    } else {
+                        $("#txtAdjEmailHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.EmailHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.EmailMinutes));
+                    }
                 }
 
                 if (res["data"][0].fields.OtherAdjustedHours > 0 || res["data"][0].fields.OtherAdjustedMinutes > 0) {
                     $("#txtAdjOtherWorkHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.OtherAdjustedHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.OtherAdjustedMinutes));
                 } else {
-                    $("#txtAdjOtherWorkHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.OtherHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.OtherMinutes));
+                    if (isEnableTimer === true) {
+                        $("#txtAdjOtherWorkHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.OtherTimerHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.OtherTimerMinutes));
+                    } else {
+                        $("#txtAdjOtherWorkHrsMin").val(fnTwoDigitsFormat(res["data"][0].fields.OtherHours) + ":" + fnTwoDigitsFormat(res["data"][0].fields.OtherMinutes));
+                    }
                 }
 
                 // ToDO logic - to check FEB submitted, But JAN/DEC not submitted because no data - in edit scenario disable the Submit button if users selects JAN/DEC
@@ -816,7 +873,7 @@ $(document).ready(function () {
             $("#txtAdjEmailHrsMin").addClass('inputError');
             $("#btnEditHrs").attr("disabled", true);
 			$("#TotalInputErrMSg").removeClass('hidden').show();
-			
+
         } else {
             $("#txtAdjEmailHrsMin").removeClass('inputError');
             if (!$("#txtAdjEmailHrsMin,#txtAdjMeetingHrsMin,#txtAdjOtherWorkHrsMin").hasClass('inputError')) {
@@ -830,7 +887,7 @@ $(document).ready(function () {
         if (!(fnValidateTimeFormat(time, $("#txtAdjOtherWorkHrsMin")))) {
             $("#txtAdjOtherWorkHrsMin").addClass('inputError');
             $("#btnEditHrs").attr("disabled", true);
-            
+
 			$("#TotalInputErrMSg").removeClass('hidden').show();
         } else {
             $("#txtAdjOtherWorkHrsMin").removeClass('inputError');
@@ -887,6 +944,82 @@ $(document).ready(function () {
 
     });
 
+    // Timer enable - Based on settings "TimerEnable"
+
+    // Timer events
+    if (isEnableTimer) {
+        var pathname = window.location.pathname;
+        if ((window.location.href.indexOf(pathname) > -1)) {
+            var dashboardPage = pathname.split('?')[0].toLowerCase();
+            if (dashboardPage === "/" || dashboardPage === "/home/refreshdata" || dashboardPage === "/home/getprevnextweek" || dashboardPage === "/home/" || dashboardPage === "/home") {
+                $(".lblTimer").removeClass('hidden');
+            } else {
+                $(".lblTimer").addClass('hidden');
+            }
+        }
+
+        $.ajax({
+            url: "/Home/GetStartStopButtonStatus/",
+            type: 'get',
+            success: function (data) {
+                console.log("GetStartStopButtonStatus... flag.. " + data);
+                if (data) {
+                    $("#btnStart").removeClass("hidden");
+                    $("#btnStop").addClass("hidden");
+                } else {
+                    $("#btnStop").removeClass("hidden");
+                    $("#btnStart").addClass("hidden");
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    $("#btnStart").click(function () {
+        $("#btnStart").addClass("hidden");
+        $("#btnStop").removeClass("hidden");
+        $.ajax({
+            url: "/Home/CreateTimerHours/",
+            type: 'post',
+            data: null,
+            success: function (data) {
+                timerListId = data;
+                $("#btnStart").addClass("hidden");
+                $("#btnStop").removeClass("hidden");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //TODO:handle error
+                console.log(errorThrown);
+                $("#btnStop").addClass("hidden");
+                $("#btnStart").removeClass("hidden");
+            }
+        });
+
+    });
+
+    $("#btnStop").click(function () {
+        $("#btnStop").addClass("hidden");
+        $("#btnStart").removeClass("hidden");
+        $.ajax({
+            url: "/Home/UpdateTimerHours/",
+            type: 'PATCH',
+            data: {
+                "id": timerListId
+            },
+            success: function (data) {
+                $("#btnStop").addClass("hidden");
+                $("#btnStart").removeClass("hidden");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //TODO:handle error
+                console.log(errorThrown);
+                $("#btnStop").removeClass("hidden");
+                $("#btnStart").addClass("hidden");
+            }
+        });
+    });
 });
 
     $(function () {

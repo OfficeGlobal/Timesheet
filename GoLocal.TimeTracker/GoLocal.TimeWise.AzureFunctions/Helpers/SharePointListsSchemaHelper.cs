@@ -449,6 +449,7 @@ namespace GoLocal.TimeWise.AzureFunctions.Helpers
         ReportHoursListSchema,
         NotificationsListSchema,
         UsersListSchema,
-        TotalHrsListSchema
+        TotalHrsListSchema,
+        TimerHoursSchema
     }
 }

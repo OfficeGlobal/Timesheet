@@ -1015,3 +1015,19 @@ table.dataTable thead th, table.dataTable thead td {
 .inputError {
     border-color: red;
 }
+
+.timerButton {
+    /* border-radius: 4px; */
+    background-color: #2a809f;
+    background: #2a809f;
+    color: white;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.timerButton:hover {
+    background-color: #2a809f;
+    background: #2a809f;
+    color: white;
+    cursor: pointer;
+}

@@ -97,6 +97,11 @@ namespace GoLocal.TimeWise.AzureFunctions.Models
         public int AllDayCountHours { get; set; }
 
         /// <summary>
+        /// Used to enable or disable the timer functionality
+        /// </summary>
+        public bool EnableTimer { get; set; }
+
+        /// <summary>
         /// Schedule for Employee autosubmit to Manager as a Cron expression - if this value is set, auto submit will be triggered per expressio value.
         /// Cron expression format: https://en.wikipedia.org/wiki/Cron#CRON_expression
         /// If the expression is set for a day that the current month does not have, then last day of current month will be used, for example:
@@ -137,6 +142,11 @@ namespace GoLocal.TimeWise.AzureFunctions.Models
         /// Work Hours List Prefix
         /// </summary>
         public string WorkHoursListPrefix { get; set; }
+
+        /// <summary>
+        /// TimerHours List Prefix
+        /// </summary>
+        public string TimerHoursListPrefix { get; set; }
 
         /// <summary>
         /// Notifications List Prefix

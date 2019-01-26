@@ -123,6 +123,7 @@ namespace GoLocal.TimeTracker.MiddleTier.Models
         /// </summary>
         public bool TeamHoursEditable { get; set; }
 
+        public bool EnableTimer { get; set; }
         /// <summary>
         /// Report Hours List Prefix
         /// </summary>
@@ -142,6 +143,11 @@ namespace GoLocal.TimeTracker.MiddleTier.Models
         /// Notifications List Prefix
         /// </summary>
         public string NotificationsListPrefix { get; set; }
+
+        /// <summary>
+        /// TimerHours List Prefix
+        /// </summary>
+        public string TimerHoursListPrefix { get; set; }
 
         /// <summary>
         /// Value in minutes to use when calculating time spent in email for received emails marked as read in Inbox

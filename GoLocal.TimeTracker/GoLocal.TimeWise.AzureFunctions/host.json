@@ -1,4 +1,4 @@
-{
+﻿{
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
@@ -10,9 +10,9 @@
     "CallbackPath": "/signin-oidc",
     "BaseUrl": "<to be updated>",
     "ClientSecret": "<to be updated>",
-    "Scopes": "openid email profile offline_access",
+    "Scopes": "mail.send",
     "GraphResourceId": "https://graph.microsoft.com/",
-    "GraphScopes": "email, profile, Calendars.Read, Mail.Read, opened, Sites.Read.All, User.Read.All, Mail.Send, Sites.Manage.All, Sites.ReadWrite.All, Group.Read.All Mail.Send",
+    "GraphScopes": "Group.Read.All Calendars.Read Mail.Read Mail.Send Sites.Read.All Sites.ReadWrite.All Sites.Manage.All User.Read.All",
     "ApiUrl": "https://localhost:44376/",
     "TenantId": "<to be updated>"
   },
@@ -20,9 +20,8 @@
     "DayHours": "8",
     "WeekHours": "0",
     "MonthHours": "0",
-
     "FirstDayWeek": "Monday",
-    "TimeZone": "Pacific Standard Time", 
+    "TimeZone": "Pacific Standard Time",
     "CutoffDayEmployee": "0 0 20 * *",
     "CutoffDayManager": "0 0 21 * *",
     "DaysHistory": "360",
@@ -31,6 +30,7 @@
     "SentEmailTime": "5",
     "TaskTime": "30",
 
+    "EnableTimer": "false",
     "WorkHoursCacheMinutes": "2",
     "NotificationsCacheMinutes": "4",
     "UserProfileCacheMinutes": "30",
@@ -52,7 +52,7 @@
     "SharePointGroupId": "GroupMembership",
     "SharePointUsersList": "TimeTrackerUsers",
     "SharePointTotalHoursList": "DailyTotalHours",
-
+    "TimerHoursListPrefix": "timerhours_",
     "ReportHoursListPrefix": "reporthours_",
     "TeamHoursListPrefix": "teamhours_",
     "WorkHoursListPrefix": "workhours_",
@@ -61,31 +61,31 @@
     "GraphRequestUrl": "https://graph.microsoft.com/v1.0/",
     "GraphBetaRequestUrl": "https://graph.microsoft.com/beta/"
   },
-    "Logging": {
-      "IncludeScopes": false,
-      "Debug": {
-        "LogLevel": {
-          "Microsoft": "Trace",
-          "Default": "Debug"
-        }
-      },
-      "Console": {
-        "LogLevel": {
-          "Microsoft.AspNetCore": "Warning",
-          "Microsoft": "Debug",
-          "Default": "Information"
-        }
-      },
-      "EventLog": {
-        "LogLevel": {
-          "Default": "Information"
-        }
-      },
+  "Logging": {
+    "IncludeScopes": false,
+    "Debug": {
+      "LogLevel": {
+        "Microsoft": "Trace",
+        "Default": "Debug"
+      }
+    },
+    "Console": {
+      "LogLevel": {
+        "Microsoft.AspNetCore": "Warning",
+        "Microsoft": "Debug",
+        "Default": "Information"
+      }
+    },
+    "EventLog": {
       "LogLevel": {
         "Default": "Information"
       }
     },
-    "ApplicationInsights": {
-      "InstrumentationKey": "<to be updated>"
+    "LogLevel": {
+      "Default": "Information"
     }
+  },
+  "ApplicationInsights": {
+    "InstrumentationKey": "<to be updated>"
   }
+}

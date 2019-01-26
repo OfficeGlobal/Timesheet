@@ -14,8 +14,10 @@ using System.Threading.Tasks;
 
 namespace GoLocal.TimeWise.AzureFunctions.Helpers
 {
+
     public static class HoursComputeHelper
     {
+
         // This method takes a Resport Hours object as input and returns the final hours(Adjusted/computed) along with the total
         public static ConcurrentDictionary<string, short> GetFinalHrsMins(ReportHours wh)
         {
@@ -223,7 +225,7 @@ namespace GoLocal.TimeWise.AzureFunctions.Helpers
             return ConvertToStringOfStrings(FinalDictObj);
         }
 
-        public static Dictionary<string, short> ComputeDailyTotals(WorkHoursFields whf)
+        public static Dictionary<string, short> ComputeDailyTotals(WorkHoursFields whf, TimeTrackerOptions timeTrackerOptions)
         {
             Dictionary<string, short> FinalDictObj = new Dictionary<string, short>();
 
@@ -237,22 +239,37 @@ namespace GoLocal.TimeWise.AzureFunctions.Helpers
             }
             else
             {
-                FinalDictObj.Add("FinalEmailHrs", whf.EmailHours);
-                FinalDictObj.Add("FinalEmailMins", whf.EmailMinutes);
+                if (timeTrackerOptions.EnableTimer == true)
+                {
+                    FinalDictObj.Add("FinalEmailHrs", whf.EmailTimerHours);
+                    FinalDictObj.Add("FinalEmailMins", whf.EmailTimerMinutes);
+                }
+                else
+                {
+                    FinalDictObj.Add("FinalEmailHrs", whf.EmailHours);
+                    FinalDictObj.Add("FinalEmailMins", whf.EmailMinutes);
+                }
 
             }
             //For Meeting Hours
             if (whf.MeetingAdjustedHours > 0 || whf.MeetingAdjustedMinutes > 0)
             {
-
                 FinalDictObj.Add("FinalMeetingHrs", whf.MeetingAdjustedHours);
                 FinalDictObj.Add("FinalMeetingMins", whf.MeetingAdjustedMinutes);
 
             }
             else
             {
-                FinalDictObj.Add("FinalMeetingHrs", whf.MeetingHours);
-                FinalDictObj.Add("FinalMeetingMins", whf.MeetingMinutes);
+                if (timeTrackerOptions.EnableTimer == true)
+                {
+                    FinalDictObj.Add("FinalMeetingHrs", whf.MeetingTimerHours);
+                    FinalDictObj.Add("FinalMeetingMins", whf.MeetingTimerMinutes);
+                }
+                else
+                {
+                    FinalDictObj.Add("FinalMeetingHrs", whf.MeetingHours);
+                    FinalDictObj.Add("FinalMeetingMins", whf.MeetingMinutes);
+                }
 
             }
             //For Other Hours
@@ -265,8 +282,16 @@ namespace GoLocal.TimeWise.AzureFunctions.Helpers
             }
             else
             {
-                FinalDictObj.Add("FinalOtherHrs", whf.OtherHours);
-                FinalDictObj.Add("FinalOtherMins", whf.OtherMinutes);
+                if (timeTrackerOptions.EnableTimer == true)
+                {
+                    FinalDictObj.Add("FinalOtherHrs", whf.OtherTimerHours);
+                    FinalDictObj.Add("FinalOtherMins", whf.OtherTimerMinutes);
+                }
+                else
+                {
+                    FinalDictObj.Add("FinalOtherHrs", whf.OtherHours);
+                    FinalDictObj.Add("FinalOtherMins", whf.OtherMinutes);
+                }
 
             }
 
