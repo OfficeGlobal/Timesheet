@@ -1,0 +1,18 @@
+page_type: sample
+products:
+  - office-outlook
+  - office-365
+  - ms-graph
+languages:
+  - csharp
+extensions:
+  contentType: tools
+  technologies:
+    - Microsoft Graph
+  services:
+    - Outlook
+    - Users
+    - Office 365
+  createdDate: '6/29/2018 1:08:28 PM'
+title: Timesheet
+description: The Timesheet tool, an open source tool offered on GitHub, calculates your employees' work hours using Microsoft Graph APIs ΓÇô helping you drive a healthy work life balance within your organization. This solution calculates work hours using Microsoft Graph APIs (calendar and email activity data) to provide a baseline of the amount of time for which employees have worked. Employees can make changes to the calculated work hours and submit it. HR can use employee work hour reports for auditing purposes. Employers can use this data to drive a healthy work life balance for employees in the organization.
